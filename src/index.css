@@ -39,6 +39,18 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    --success-glow: 142 76% 50%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 98%;
+    --warning-glow: 38 92% 65%;
+
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 98%;
+    --info-glow: 217 91% 75%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
@@ -63,6 +75,27 @@ All colors MUST be HSL.
     --fashion-charcoal: 220 26% 18%;
     --fashion-accent: 350 80% 60%;
     --fashion-highlight: 39 100% 67%;
+
+       --glass-bg: 0 0% 100% / 0.7;
+    --glass-border: 214.3 31.8% 91.4% / 0.3;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--brand)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(var(--success-glow)));
+    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(var(--warning-glow)));
+    --gradient-info: linear-gradient(135deg, hsl(var(--info)), hsl(var(--info-glow)));
+    --gradient-fashion: linear-gradient(135deg, hsl(var(--fashion-cream)), hsl(var(--fashion-beige)));
+    
+    /* Shadows */
+    --shadow-primary: 0 20px 25px -5px hsl(var(--primary) / 0.1);
+    --shadow-success: 0 20px 25px -5px hsl(var(--success) / 0.3);
+    --shadow-warning: 0 20px 25px -5px hsl(var(--warning) / 0.3);
+    --shadow-info: 0 20px 25px -5px hsl(var(--info) / 0.3);
+    --shadow-destructive: 0 20px 25px -5px hsl(var(--destructive) / 0.3);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .dark {
@@ -111,6 +144,10 @@ All colors MUST be HSL.
     --fashion-charcoal: 220 15% 15%;
     --fashion-accent: 350 70% 50%;
     --fashion-highlight: 39 80% 60%;
+
+        --glass-bg: 222.2 84% 4.9% / 0.8;
+    --glass-border: 217.2 32.6% 17.5% / 0.3;
+    --glass-hover: 222.2 84% 4.9% / 0.9;
   }
 }
 

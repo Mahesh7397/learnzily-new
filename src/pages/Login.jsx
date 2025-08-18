@@ -2,10 +2,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoaderOne from "../component/ui/loader-one";
+import { UseDataProvider } from "../contexts/DataProvider";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { GoogleLoginandsignup,Handlelogin }=UseDataProvider()
+
+  const [email,setemail]=useState("")
+  const [Password,setPassword]=useState("")
 
 //   useEffect(() => {
 //     const timer = setTimeout(() => {
@@ -15,15 +21,22 @@ const Login = () => {
 //     return () => clearTimeout(timer);
 //   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Simulate login process
-    navigate('/onboarding');
+    try {
+      const user=await Handlelogin(email,Password)
+      console.log(user)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
-  const handleGoogleLogin = () => {
-    // Simulate Google login
-    navigate('/onboarding');
+  const handleGoogleLogin = async() => {
+    try {
+      await GoogleLoginandsignup()
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   if (isLoading) {
@@ -68,6 +81,8 @@ const Login = () => {
                   className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-brand"
                   placeholder="Enter your email"
                   required
+                  value={email}
+                  onChange={(e)=>setPassword(e.target.value)}
                 />
               </div>
               
@@ -81,6 +96,8 @@ const Login = () => {
                   className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-brand"
                   placeholder="Enter your password"
                   required
+                  value={Password}
+                  onChange={(e)=>setPassword(e.target.value)}
                 />
               </div>
               
