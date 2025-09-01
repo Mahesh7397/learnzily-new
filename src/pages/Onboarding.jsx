@@ -8,11 +8,15 @@ import { Label } from "../component/ui/label";
 import { RadioGroup, RadioGroupItem } from "../component/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../component/ui/select";
 import LoaderOne from "../component/ui/loader-one";
+import { UseDataProvider } from "../contexts/DataProvider";
 
 const Onboarding = () => {
    const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+
+  const {Onboardingfinish}=UseDataProvider()
+
   const [formData, setFormData] = useState({
     userAwareness: [],
     userGoals: [],
@@ -34,6 +38,11 @@ const Onboarding = () => {
     audienceType: [],
     gender: ''
   });
+
+
+  const Handlesubmit=()=>{
+    Onboardingfinish(formData)
+  }
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     setIsLoading(false);
@@ -884,7 +893,7 @@ const Onboarding = () => {
                   Next
                   <ChevronRight className="w-4 h-4" />
                 </Button>:
-                 <Button onClick={nextStep} disabled={!canProceed()} className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground flex items-center gap-2">
+                 <Button onClick={()=>Handlesubmit()} disabled={!canProceed()} className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground flex items-center gap-2">
                   Start
                   <ChevronRight className="w-4 h-4" />
                 </Button>

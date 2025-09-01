@@ -1,15 +1,15 @@
 
 import { useState, useEffect } from "react";
-import { SessionNavBar } from "@/components/SessionNavBar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import LocationPicker from "@/components/LocationPicker";
-import ImageUpload from "@/components/ImageUpload";
-import BargainSection from "@/components/BargainSection";
-import Alert from "@/components/ui/alert-custom";
+import { SessionNavBar } from "../component/SessionNavBar";
+import { Card, CardContent, CardHeader, CardTitle } from "../component/ui/card";
+import { Button } from "../component/ui/button";
+import { Input } from "../component/ui/input";
+import { Badge } from "../component/ui/badge";
+import { Textarea } from "../component/ui/textarea";
+import LocationPicker from "../component/LocationPicker";
+import ImageUpload from "../component/ImageUpload";
+import BargainSection from "../component/BargainSection";
+import Alert from "../component/ui/alert-custom";
 import { 
   Search, 
   Plus, 

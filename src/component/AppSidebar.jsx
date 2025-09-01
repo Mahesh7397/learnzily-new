@@ -44,6 +44,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { UseDataProvider } from "../contexts/DataProvider";
 
 const navigation = [
   {
@@ -108,6 +109,7 @@ export function AppSidebar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const collapsed = state === "collapsed";
 
+  const { Logout } = UseDataProvider()
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -225,10 +227,12 @@ export function AppSidebar() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex items-center gap-2 text-red-600">
-              <LogOut className="w-4 h-4" />
-              Sign out
-            </DropdownMenuItem>
+        
+              <DropdownMenuItem className="flex items-center gap-2 text-red-600"  onClick={()=>Logout()}>
+                <LogOut className="w-4 h-4" />
+                Sign out
+              </DropdownMenuItem>
+           
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarFooter>

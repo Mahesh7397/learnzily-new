@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Download, RefreshCw, AlertCircle, Info, AlertTriangle } from 'lucide-react';
-import { mockLogs } from '../data/mockData';
+import { mockLogs } from '../../data/mockData';
 
 const LogList = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,7 +28,7 @@ const LogList = () => {
   const getLogBgColor = (level) => {
     switch (level) {
       case 'error':
-        return 'bg-red-50 border-red-200';
+        return 'bg-red-50 border';
       case 'warning':
         return 'bg-yellow-50 border-yellow-200';
       default:
@@ -39,13 +39,13 @@ const LogList = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">System Logs</h1>
+        <h1 className="text-3xl font-bold text-foreground">System Logs</h1>
         <div className="flex space-x-3">
-          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+          <button className="bg-background hover:bg-green-700 text-foreground px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
             <Download className="w-4 h-4" />
             <span>Export</span>
           </button>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+          <button className="bg-blue-600 hover:bg-blue-700 text-foreground px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
             <RefreshCw className="w-4 h-4" />
             <span>Refresh</span>
           </button>
@@ -53,7 +53,7 @@ const LogList = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+      <div className="bg-background rounded-lg shadow-md border border-gray-200 p-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -62,7 +62,7 @@ const LogList = () => {
               placeholder="Search logs..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
+              className="pl-10 pr-4 py-2 border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-border w-full"
             />
           </div>
 
@@ -72,7 +72,7 @@ const LogList = () => {
               <select
                 value={levelFilter}
                 onChange={(e) => setLevelFilter(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="border-border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="all">All Levels</option>
                 <option value="info">Info</option>
@@ -87,7 +87,7 @@ const LogList = () => {
       {/* Logs List */}
       <div className="space-y-3">
         {filteredLogs.map((log) => (
-          <div key={log.id} className={`rounded-lg border p-4 ${getLogBgColor(log.level)}`}>
+          <div key={log.id} className={`rounded-lg border-border p-4 bg-background border-border`}>
             <div className="flex items-start space-x-3">
               <div className="mt-1">
                 {getLogIcon(log.level)}
@@ -102,14 +102,14 @@ const LogList = () => {
                     }`}>
                       {log.level.toUpperCase()}
                     </span>
-                    <span className="text-sm font-medium text-gray-900">{log.source}</span>
+                    <span className="text-sm font-medium text-foreground">{log.source}</span>
                   </div>
-                  <span className="text-sm text-gray-500">{log.timestamp}</span>
+                  <span className="text-sm text-foreground">{log.timestamp}</span>
                 </div>
-                <p className="text-gray-900">{log.message}</p>
+                <p className="text-foreground">{log.message}</p>
                 {log.details && (
-                  <div className="mt-2 p-3 bg-white bg-opacity-50 rounded border">
-                    <pre className="text-xs text-gray-600 whitespace-pre-wrap">{log.details}</pre>
+                  <div className="mt-2 p-3 bg-background bg-opacity-50 rounded border">
+                    <pre className="text-xs text-foreground whitespace-pre-wrap">{log.details}</pre>
                   </div>
                 )}
               </div>
@@ -125,21 +125,21 @@ const LogList = () => {
       )}
 
       {/* Pagination */}
-      <div className="flex items-center justify-between bg-white px-6 py-4 border border-gray-200 rounded-lg">
+      <div className="flex items-center justify-between bg-background px-6 py-4 border-border rounded-lg">
         <div className="text-sm text-gray-500">
           Showing {filteredLogs.length} of {logs.length} logs
         </div>
         <div className="flex space-x-2">
-          <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50">
+          <button className="px-3 py-2 border-border rounded-lg hover:bg-gray-50 disabled:opacity-50">
             Previous
           </button>
-          <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button className="px-3 py-2 bg-blue-600 text-foreground rounded-lg hover:bg-blue-700">
             1
           </button>
-          <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <button className="px-3 py-2 border-border rounded-lg hover:bg-gray-50">
             2
           </button>
-          <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <button className="px-3 py-2 border-border rounded-lg hover:bg-gray-50">
             Next
           </button>
         </div>

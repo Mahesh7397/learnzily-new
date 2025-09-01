@@ -40,9 +40,7 @@ const SignupPage = () => {
     e.preventDefault();
     try {
       if( name.length>=4 && Password===rePassword && email.includes("@gmail.com")){
-        const use=await Handlesignup(email,Password)
-        console.log(use)
-        Alert('success', 'Operation Complete!', 'Your task has been successfully completed.')
+        await Handlesignup(email,Password)
     }
     else{
       Alert('warning', 'Passwords do not match.', 'Please make sure your password and confirm password fields are identical.')

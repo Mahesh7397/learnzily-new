@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Plus, Eye, Ban, Trash2, MoreHorizontal } from 'lucide-react';
-import { mockUsers } from '../data/mockData';
+import { mockUsers } from '../../data/mockData';
 
 const UserList = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,8 +33,8 @@ const UserList = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+        <h1 className="text-3xl font-bold text-foreground">User Management</h1>
+        <button className="bg-blue-600 hover:bg-blue-700 text-foreground px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
           <Plus className="w-5 h-5" />
           <span>Add User</span>
         </button>
@@ -78,27 +78,27 @@ const UserList = () => {
           <table className="w-full">
             <thead className="bg-background border-b border-border">
               <tr>
-                <th className="text-left py-4 px-6 font-semibold text-gray-900">User</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-900">Status</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-900">Role</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-900">Join Date</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-900">Last Login</th>
-                <th className="text-right py-4 px-6 font-semibold text-gray-900">Actions</th>
+                <th className="text-left py-4 px-6 font-semibold text-foreground">User</th>
+                <th className="text-left py-4 px-6 font-semibold text-foreground">Status</th>
+                <th className="text-left py-4 px-6 font-semibold text-foreground">Role</th>
+                <th className="text-left py-4 px-6 font-semibold text-foreground">Join Date</th>
+                <th className="text-left py-4 px-6 font-semibold text-foreground">Last Login</th>
+                <th className="text-right py-4 px-6 font-semibold text-foreground">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y border-border">
               {filteredUsers.map((user) => (
                 <tr key={user.id} className=" transition-colors">
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                        <span className="text-gray-600 font-medium">
+                      <div className="w-10 h-10 bg-background rounded-full flex items-center justify-center">
+                        <span className="text-foreground font-medium">
                           {user.name.split(' ').map(n => n[0]).join('')}
                         </span>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{user.name}</p>
-                        <p className="text-sm text-gray-500">{user.email}</p>
+                        <p className="font-medium text-foreground">{user.name}</p>
+                        <p className="text-sm text-foreground">{user.email}</p>
                       </div>
                     </div>
                   </td>
@@ -111,9 +111,9 @@ const UserList = () => {
                       {user.status}
                     </span>
                   </td>
-                  <td className="py-4 px-6 text-gray-900">{user.role}</td>
-                  <td className="py-4 px-6 text-gray-900">{user.joinDate}</td>
-                  <td className="py-4 px-6 text-gray-900">{user.lastLogin}</td>
+                  <td className="py-4 px-6 text-foreground">{user.role}</td>
+                  <td className="py-4 px-6 text-foreground">{user.joinDate}</td>
+                  <td className="py-4 px-6 text-foreground">{user.lastLogin}</td>
                   <td className="py-4 px-6">
                     <div className="flex items-center justify-end space-x-2">
                       <Link

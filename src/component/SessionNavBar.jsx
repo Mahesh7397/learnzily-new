@@ -20,6 +20,7 @@ import {
   ChevronDown,
   ChevronsUpDown,
   Bell,
+  UserCog 
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Link, useLocation } from "react-router-dom";
@@ -38,6 +39,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+import { UseDataProvider } from "../contexts/DataProvider";
 
 const sidebarVariants = {
   open: {
@@ -87,7 +89,7 @@ const navigation = [
   { title: "Forum", url: "/forum", icon: MessageSquare },
   { title: "Schedule", url: "/schedule", icon: Calendar },
   { title: "Tutor", url: "/tutor", icon: User },
-  { title: "Smart Prep", url: "/smart-prep", icon: Brain },
+  { title: "Smart Prep", url: "/smartprep", icon: Brain },
   { title: "Fifi AI", url: "/fifi-ai", icon: Bot },
 ];
 
@@ -102,6 +104,7 @@ export function SessionNavBar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const location = useLocation();
+  const {Logout,role,Userdata}=UseDataProvider()
 
   const isActive = (path) => location.pathname === path;
 
@@ -235,6 +238,17 @@ export function SessionNavBar() {
                     )}
                   </motion.li>
                 </Link>
+                {Userdata && role==import.meta.env.VITE_ADMIN ?<Link
+                  to="/admin"
+                  className="flex h-8 w-full flex-row items-center rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary"
+                >
+                  <UserCog className="h-4 w-4 shrink-0" />
+                  <motion.li variants={variants}>
+                    {!isCollapsed && (
+                      <p className="ml-2 text-sm font-medium">Admin</p>
+                    )}
+                  </motion.li>
+                </Link>:null}
 
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="w-full">
@@ -272,7 +286,7 @@ export function SessionNavBar() {
                       </div>
                     </div>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="flex items-center gap-2">
+                    <DropdownMenuItem className="flex items-center gap-2" onClick={()=>Logout()}>
                       <LogOut className="h-4 w-4" /> Sign out
                     </DropdownMenuItem>
                   </DropdownMenuContent>

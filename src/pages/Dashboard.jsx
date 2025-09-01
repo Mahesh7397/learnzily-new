@@ -160,7 +160,7 @@ const Dashboard = () => {
       <main className="flex-1 ml-12 lg:ml-60 transition-all duration-200">
         <div className="max-w-7xl mx-auto p-3 md:p-6 space-y-4 md:space-y-6">
           <div className="flex items-center justify-between w-full p-4 bg-gradient-to-r from-brand to-brand-foreground text-white rounded-lg mb-6">
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <Link to="/forum">
                 <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/20">
                   <MessageCircle className="w-5 h-5" />
@@ -190,7 +190,7 @@ const Dashboard = () => {
                   <User className="w-5 h-5" />
                 </Button>
               </Link>
-            </div>
+            </div> */}
 
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center">

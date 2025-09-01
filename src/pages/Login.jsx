@@ -25,7 +25,6 @@ const Login = () => {
     e.preventDefault();
     try {
       const user=await Handlelogin(email,Password)
-      console.log(user)
     } catch (error) {
       console.log(error)
     }
@@ -82,7 +81,7 @@ const Login = () => {
                   placeholder="Enter your email"
                   required
                   value={email}
-                  onChange={(e)=>setPassword(e.target.value)}
+                  onChange={(e)=>setemail(e.target.value)}
                 />
               </div>
               

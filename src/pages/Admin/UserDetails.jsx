@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Mail, Calendar, Shield, Activity, Ban, Edit, Trash2 } from 'lucide-react';
-import { mockUsers } from '../data/mockData';
+import { mockUsers } from '../../data/mockData';
 
 const UserDetails= () => {
   const { id } = useParams();
