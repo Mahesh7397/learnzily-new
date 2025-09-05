@@ -13,6 +13,8 @@ export const DataProvider = ({ children }) => {
     const [role, setrole] = useState("")
     const Navigate = useNavigate()
     const { showAlert } = useAlert()
+    const [result,setresult]=useState([])
+    const [searchQuery,setSearchQuery]=useState("")
 
     const Googleprovider = new GoogleAuthProvider()
 
@@ -174,7 +176,7 @@ export const DataProvider = ({ children }) => {
                     "Content-Type": "multipart/form-data"
                 }
             })
-            console.log(req)
+
             Alert("success",req.data.message)
         } catch (error) {
             console.log(error)
@@ -187,7 +189,7 @@ export const DataProvider = ({ children }) => {
             const req=await api.get('/auth/resource/alldata',{
                 headers:{
                     "Authorization": `Bearer ${acesstoken}`,
-                    "Content-Type": "multipart/form-data"
+                    "Content-Type": "application/json"
                 }
             })
             return req.data
@@ -196,13 +198,49 @@ export const DataProvider = ({ children }) => {
             Alert('error',error.message)
         }
     }
+    
+    const searchitem=async()=>{
+        try {
+             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+
+            const req=await api.get(`/api/search?q=${searchQuery}`,{
+                headers:{
+                    "Authorization": `Bearer ${acesstoken}`,
+                    "Content-Type":"application/json"
+                }
+            })
+
+            setresult(req.data.result)
+        } catch (error) {
+            setresult([])
+        }
+    }
+    
+    const HandleLink=async(key)=>{
+        try {
+             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+            const url= await api.get("/api/resouce-url",{
+                params:{
+                    key:key
+                }
+            },{
+                headers:{
+                    "Authorization": `Bearer ${acesstoken}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            return url.data.url
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         getuserdata()
     }, [])
 
     return (
-        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role ,Logout,HandleUpload,getallresourcesdata}}>
+        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role ,Logout,HandleUpload,getallresourcesdata,searchQuery,setSearchQuery,result,searchitem,setresult}}>
             {children}
         </Datacontext.Provider>
     )

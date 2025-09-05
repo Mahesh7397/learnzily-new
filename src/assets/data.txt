@@ -1,0 +1,15 @@
+Sub_name:{type:String,required:true},
+    Issue_date:{type:Date,required:true},
+    Course_name:{type:String,required:true}, 
+    College_Degree:{type:String,required:true},//category
+    Key:{type:String,required:true}
+
+
+ Sub_name:{type:String ,required:true},
+    Sub_code:{type:String ,required:true },
+    Issu_date:{type:Date ,require},
+    Sem_month_year:{type:String ,required:true},
+    College_name:{type:String,require:true},
+    Course_name:{type:String,required:true}, 
+    College_Degree:{type:String,require:true},//category
+    Key:{type:String,require:true}

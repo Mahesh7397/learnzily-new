@@ -3,6 +3,7 @@ import { Search, Filter, Upload, Plus } from 'lucide-react';
 
 
 const Header= ({ searchQuery, onSearchChange }) => {
+
   return (
     <header className="bg-card  border-border px-4 sm:px-6 py-4 transition-theme">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center gap-4">

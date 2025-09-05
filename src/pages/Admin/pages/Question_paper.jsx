@@ -5,22 +5,11 @@ import { Search, Download, Calendar, Clock, FileText, Star, Edit, Trash2, Plus }
 const Question_paper = () => {
   const location=useLocation()
   const {data}=location.state || []
-  console.log(data)
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedYear, setSelectedYear] = useState('all');
   const [questionPapers, setQuestionPapers] = useState([...data]);
 
-  {/**
-    Sub_name:{type:String ,required:true},
-    Sub_code:{type:String ,required:true },
-    Issu_date:{type:Date ,require},
-    Sem_month_year:{type:String ,required:true},
-    College_name:{type:String,require:true},
-    Course_name:{type:String,required:true}, 
-    College_Degree:{type:String,require:true},//category
-    Key:{type:String,require:true}
-    */}
 
     const subjects = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sub_name)))];
   const years = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.year.split('-')[1]))).sort().reverse()];
