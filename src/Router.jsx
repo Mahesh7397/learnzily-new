@@ -29,7 +29,11 @@ import CoreSettings from './pages/Admin/CoreSettings'
 import Upload from './pages/Admin/Upload'
 import Notes from './pages/Admin/pages/Notes'
 import Question_paper from './pages/Admin/pages/Question_paper'
-
+//tools
+import GradeCalculator from './pages/tools/GradeCalculator'
+import GradePredictor from './pages/tools/GradePredictor'
+import GradeTracker from './pages/tools/GradeTracker'
+import PercentageCalculator from './pages/tools/PercentageCalculator'
 
 const Router = () => {
     const { Userdata, role } = UseDataProvider()
@@ -58,8 +62,15 @@ const Router = () => {
                     <Route index element={<AdminDashboard />} />
                     <Route path='dashboard' element={<AdminDashboard />} />
                     <Route path='resources' element={<ResourceList />} >
-                        <Route index path='question-paper' element={<Question_paper />} />
+                        <Route index element={<Question_paper />} />
+                        <Route path='question-paper' element={<Question_paper />} />
                         <Route path='notes' element={<Notes />} />
+                    </Route>
+                    <Route path='tools'>
+                        <Route path='grade-calculator' element={<GradeCalculator/>}/>
+                        <Route path='Percentage-calculator' element={<PercentageCalculator/>} />
+                        <Route path='grade-tracker' element={<GradeTracker/>} />
+                        <Route path='grade-predictor' element={<GradePredictor/>} />
                     </Route>
                     <Route path='userlist' element={<UserList />} />
                     <Route path='userDatails/:id' element={<UserDetails />} />

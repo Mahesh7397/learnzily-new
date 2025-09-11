@@ -105,7 +105,7 @@ export function SessionNavBar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const location = useLocation();
   const {Logout,role,Userdata}=UseDataProvider()
-
+    const displayName = Userdata?.displayName || "User";
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -134,7 +134,7 @@ export function SessionNavBar() {
                 </div>
                 <motion.div variants={variants}>
                   {!isCollapsed && (
-                    <span className="font-bold text-black dark:text-white text-xl">LearnEze</span>
+                    <span className="font-bold text-black dark:text-white text-xl">LearnEzily</span>
                   )}
                 </motion.div>
               </div>
@@ -255,7 +255,7 @@ export function SessionNavBar() {
                     <div className="flex h-8 w-full flex-row items-center gap-2 rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary">
                       <Avatar className="size-4">
                         <AvatarFallback className="bg-brand text-white font-bold">
-                          G
+                          {displayName.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <motion.li
@@ -264,7 +264,7 @@ export function SessionNavBar() {
                       >
                         {!isCollapsed && (
                           <>
-                            <p className="text-sm font-medium">Gareth Christopher</p>
+                            <p className="text-sm font-medium">{displayName}</p>
                             <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
                           </>
                         )}
@@ -275,13 +275,13 @@ export function SessionNavBar() {
                     <div className="flex flex-row items-center gap-2 p-2">
                       <Avatar className="size-6">
                         <AvatarFallback className="bg-brand text-white font-bold">
-                          G
+                          {displayName.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col text-left">
-                        <span className="text-sm font-medium">Gareth Christopher</span>
+                        <span className="text-sm font-medium">{displayName}</span>
                         <span className="line-clamp-1 text-xs text-muted-foreground">
-                          gareth@example.com
+                          {Userdata?.email}
                         </span>
                       </div>
                     </div>

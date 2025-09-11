@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
   Navbar, 
   NavBody, 
@@ -17,8 +17,13 @@ import { FeatureCards } from '../component/ui/feature-cards';
 import { PremiumTestimonials } from '../component/ui/premium-testimonials';
 import { Pricing } from '../component/ui/pricing';
 import StickyFooter from '../component/ui/footer';
+import { UseDataProvider } from '../contexts/DataProvider';
 
 const Index = () => {
+  const {getuserdata}=UseDataProvider()
+  useEffect(()=>{
+     getuserdata()
+  },[])
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
      const navItems = [

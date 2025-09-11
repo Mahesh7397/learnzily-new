@@ -11,12 +11,14 @@ import { DashboardHeader } from "../component/DashboardHeader";
 import { DashboardStats } from "../component/DashboardStats";
 import { MessageSquare, Users, Clock, Bell, Settings, MessageCircle, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { UseDataProvider } from "../contexts/DataProvider";
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const [completedTasks, setCompletedTasks] = useState(0);
   const [forumPosts, setForumPosts] = useState([]);
-
+  const { Userdata } = UseDataProvider();
+  const displayName = Userdata?.displayName || "User";
   useEffect(() => {
     const savedEvents = localStorage.getItem('dashboard_events');
     const savedPosts = localStorage.getItem('forum_posts');
@@ -196,12 +198,13 @@ const Dashboard = () => {
               <div className="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center">
                 <Avatar className="w-8 h-8">
                   <AvatarFallback className="bg-orange-300 text-white text-lg font-bold">
-                    G
+                    {displayName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <div>
-                <h1 className="text-xl font-bold mb-1">Hello, Gareth!</h1>
+                <h1 className="text-xl font-bold mb-1">Hello,{
+displayName}</h1>
                 <p className="text-blue-100 text-sm">
                   We've missed you! Check out what's new
                 </p>

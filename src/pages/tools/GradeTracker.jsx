@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { SessionNavBar } from "../component/SessionNavBar";
-import { Card, CardContent, CardHeader, CardTitle } from "../component/ui/card";
-import { Button } from "../component/ui/button";
-import { Input } from "../component/ui/input";
-import { Label } from "../component/ui/label";
-import { Badge } from "../component/ui/badge";
-import { Chart, ChartTooltip, ChartTooltipContent } from "../component/ui/pie-chart";
+import { SessionNavBar } from "../../component/SessionNavBar";
+import { Card, CardContent, CardHeader, CardTitle } from "../../component/ui/card";
+import { Button } from "../../component/ui/button";
+import { Input } from "../../component/ui/input";
+import { Label } from "../../component/ui/label";
+import { Badge } from "../../component/ui/badge";
+import { Chart, ChartTooltip, ChartTooltipContent } from "../../component/ui/pie-chart";
 import { Pie, PieChart } from "recharts";
 import { TrendingUp, BookOpen, Award, BarChart3 } from "lucide-react";
 

@@ -28,13 +28,13 @@ export const DataProvider = ({ children }) => {
         })
     }
 
-    const Handlesignup = async (email, password) => {
+    const Handlesignup = async (email, password,name) => {
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password)
             const req=await api.post('/api/signup',{
                 email:email,
                 password:password,
-                userdata:user
+                userdata:{...user,displayName:name}
             })
             if(req.ok){
                 Navigate('/login')
@@ -73,10 +73,11 @@ export const DataProvider = ({ children }) => {
 
     const getuserdata = async () => {
         try {
+            console.log("hiii")
             const actoken=await localStorage.getItem("learnzilyToken")
             const chtoken=await localStorage.getItem("learnzilyRole")
             if (actoken == null || chtoken == null) {
-                // Navigate("/")
+                Navigate("/")
             }
             else {
                 const { acesstoken } = JSON.parse(actoken) 
@@ -159,7 +160,7 @@ export const DataProvider = ({ children }) => {
         try {
             await localStorage.removeItem("learnzilyRole")
             await localStorage.removeItem("learnzilyToken")
-            await getuserdata()
+            getuserdata()
             Alert("success","Successfully Logout!")
         } catch (error) {
             console.log(error)
@@ -235,12 +236,9 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        getuserdata()
-    }, [])
 
     return (
-        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role ,Logout,HandleUpload,getallresourcesdata,searchQuery,setSearchQuery,result,searchitem,setresult}}>
+        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role ,Logout,HandleUpload,getallresourcesdata,searchQuery,setSearchQuery,result,searchitem,setresult,getuserdata}}>
             {children}
         </Datacontext.Provider>
     )

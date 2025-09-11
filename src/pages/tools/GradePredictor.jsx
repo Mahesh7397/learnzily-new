@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { SessionNavBar } from "../component/SessionNavBar";
-import { Card, CardContent, CardHeader, CardTitle } from "../component/ui/card";
-import { Button } from "../component/ui/button";
-import { Input } from "../component/ui/input";
-import { Label } from "../component/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../component/ui/select";
-import { Badge } from "../component/ui/badge";
-import { Progress } from "../component/ui/progress";
+import { SessionNavBar } from "../../component/SessionNavBar";
+import { Card, CardContent, CardHeader, CardTitle } from "../../component/ui/card";
+import { Button } from "../../component/ui/button";
+import { Input } from "../../component/ui/input";
+import { Label } from "../../component/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../component/ui/select";
+import { Badge } from "../../component/ui/badge";
+import { Progress } from "../../component/ui/progress";
 import { Gem, Target, AlertCircle, TrendingUp } from "lucide-react";
 
 const GradePredictor = () => {
