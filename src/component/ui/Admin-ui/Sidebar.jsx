@@ -6,7 +6,8 @@ import {
   FileText, 
   Database,
   X,
-  Settings
+  Settings,
+  GraduationCap
 } from 'lucide-react';
 
 
@@ -18,6 +19,7 @@ const Sidebar= ({ isOpen, onToggle }) => {
     { path: '/admin/userlist', icon: Users, label: 'Users' },
     { path: '/admin/loglist', icon: FileText, label: 'Logs' },
     { path: '/admin/resources', icon: Database, label: 'Resources' },
+    { path: '/admin/college', icon: GraduationCap, label: 'College' },
   ];
 
   return (

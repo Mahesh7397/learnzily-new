@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Search, Download, Calendar, Clock, FileText, Star, Edit, Trash2, Plus } from 'lucide-react';
+import { UseDataProvider } from '../../../contexts/DataProvider';
 
 const Question_paper = () => {
   const location=useLocation()
-  const {data}=location.state || []
+  const {resources}=UseDataProvider()
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedYear, setSelectedYear] = useState('all');
-  const [questionPapers, setQuestionPapers] = useState([...data]);
+  const [questionPapers, setQuestionPapers] = useState([...resources?.questionpaper||null]);
 
 
-    const subjects = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sub_name)))];
+  const subjects = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sub_name)))];
   const years = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.year.split('-')[1]))).sort().reverse()];
 
   const filteredPapers = questionPapers.filter(paper => {

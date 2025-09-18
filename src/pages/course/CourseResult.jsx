@@ -3,7 +3,6 @@ import { Download, Eye, Star, Calendar, User, FileText, GraduationCap } from 'lu
 
 
 const SearchResultCard = ({ result }) => {
-  console.log(result)
   const getTypeIcon = () => {
     return result.type === 'notes' ? FileText : GraduationCap;
   };

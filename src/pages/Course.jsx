@@ -9,8 +9,8 @@ import LoaderOne from '../component/ui/loader-one';
 
 
 const Course = () => {
-  const [isloading, setisloading] = useState(false)
-  const { searchQuery, setSearchQuery, result, setresult, searchitem } = UseDataProvider();
+  const { searchQuery, setSearchQuery, result, setresult, searchitem ,Userdata} = UseDataProvider();
+
   useEffect(() => {
     if (searchQuery.length > 0) {
       searchitem()
@@ -18,34 +18,35 @@ const Course = () => {
       setresult([])
     }
   }, [searchQuery])
-  const handleCourseAction = (courseId, action) => {
-    console.log(`Course ${courseId} - Action: ${action}`);
 
-    switch (action) {
-      case 'pyq':
-        alert(`Opening PYQ for course ${courseId}`);
-        break;
-      case 'notes':
-        alert(`Opening Notes for course ${courseId}`);
-        break;
-      case 'buy':
-        alert(`Purchasing course ${courseId}`);
-        break;
-      default:
-        break;
-    }
+  const handleCourseAction = (tag) => {
+    setSearchQuery(tag.trim())
   };
+
+// isloading ? <LoaderOne /> : 
   return (
     <div className="min-h-screen bg-background transition-theme">
       <SessionNavBar />
       <div className='pl-[3.04rem]'>
         <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-        {isloading ? <LoaderOne /> : result?.length > 0 ? <CourseResultPage result={result} /> : <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+         {searchQuery?.length > 0?result?.length > 0 ? <CourseResultPage result={result} /> :<div className="flex  items-center mt-4 justify-center">
+          <div className='text-center'>
+            <h1 className="text-4xl font-bold text-slate-foreground mb-3">
+            Nothing Found
+          </h1>
+          <p className="text-lg text-slate-foreground mb-2">
+            Sorry, we couldn't find what you're looking for.
+          </p>
+          <p className="text-slate-foreground">
+            The page or content you searched for doesn't exist or may have been moved.
+          </p>
+          </div>
+        </div>:<main className="w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <CourseSection
             title="My Courses"
             description="Access your enrolled courses, PYQs, and notes"
-            courses={enrolledCourses}
-            onCourseAction={handleCourseAction}
+            course={Userdata}
+            onclick={handleCourseAction}
           />
         </main>}
       </div>

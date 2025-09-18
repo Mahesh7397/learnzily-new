@@ -22,7 +22,7 @@ import { UseDataProvider } from '../contexts/DataProvider';
 const Index = () => {
   const {getuserdata}=UseDataProvider()
   useEffect(()=>{
-     getuserdata()
+     getuserdata(true)
   },[])
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

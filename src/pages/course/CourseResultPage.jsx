@@ -2,7 +2,6 @@ import React from 'react'
 import SearchResultCard from './CourseResult'
 
 const CourseResultPage = ({result}) => {
-  console.log(result.length)
   return (
     result?.length>0?
       <section className="mb-8 pl-[3.04rem] sm:mb-12">

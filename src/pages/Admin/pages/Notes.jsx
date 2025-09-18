@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { Search, Download, Calendar, User, BookOpen, Edit, Trash2, Plus } from 'lucide-react';
+import { UseDataProvider } from '../../../contexts/DataProvider';
 
 const Notes = () => {
   const location = useLocation()
-  const { data } = location.state || [];
-  console.log(data)
+  const { resources } = UseDataProvider()
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
-  const [notes, setNotes] = useState([...data])
+  const [notes, setNotes] = useState([...resources.notes])
 
   {/**
     College_Degree: "majskj"

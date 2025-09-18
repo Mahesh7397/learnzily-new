@@ -34,6 +34,7 @@ import GradeCalculator from './pages/tools/GradeCalculator'
 import GradePredictor from './pages/tools/GradePredictor'
 import GradeTracker from './pages/tools/GradeTracker'
 import PercentageCalculator from './pages/tools/PercentageCalculator'
+import CollegeList from './pages/Admin/CollegeList'
 
 const Router = () => {
     const { Userdata, role } = UseDataProvider()
@@ -56,6 +57,12 @@ const Router = () => {
                 <Route path='/notifications' element={<Notification />} />
                 <Route path='/profile' element={<Profile/>} /> 
                 <Route path='/smartprep' element={<SmartPrep/>} />
+                <Route path='tools'>
+                        <Route path='grade-calculator' element={<GradeCalculator/>}/>
+                        <Route path='Percentage-calculator' element={<PercentageCalculator/>} />
+                        <Route path='grade-tracker' element={<GradeTracker/>} />
+                        <Route path='grade-predictor' element={<GradePredictor/>} />
+                    </Route>
             </> : null}
             {Userdata && role == import.meta.env.VITE_ADMIN ?
                 <Route path='/admin' element={<Admin />}>
@@ -66,12 +73,7 @@ const Router = () => {
                         <Route path='question-paper' element={<Question_paper />} />
                         <Route path='notes' element={<Notes />} />
                     </Route>
-                    <Route path='tools'>
-                        <Route path='grade-calculator' element={<GradeCalculator/>}/>
-                        <Route path='Percentage-calculator' element={<PercentageCalculator/>} />
-                        <Route path='grade-tracker' element={<GradeTracker/>} />
-                        <Route path='grade-predictor' element={<GradePredictor/>} />
-                    </Route>
+                    <Route path='college' element={<CollegeList />} />
                     <Route path='userlist' element={<UserList />} />
                     <Route path='userDatails/:id' element={<UserDetails />} />
                     <Route path='loglist' element={<LogList />} />
