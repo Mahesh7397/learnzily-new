@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
@@ -6,6 +7,7 @@ const ResourceList= () => {
   const location=useLocation()
   const Navigate=useNavigate()
   let isActive=location.pathname
+  console.log(isActive)
 
   return (
     <div className="space-y-6">
@@ -36,7 +38,7 @@ const ResourceList= () => {
               <Link
                 to={'/admin/resources/question-paper'}
                 className={`flex items-center space-x-2 px-6 py-4 text-sm font-medium whitespace-nowrap transition-all duration-200 border-b-2 ${
-                  isActive=='/admin/resources/question-paper' || isActive=='/admin/resources/'
+                  isActive=='/admin/resources/question-paper' || isActive=='/admin/resources'
                     ? 'border-primary text-primary bg-primary/5'
                     : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
