@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Search, Download, Calendar, Clock, FileText, Star, Edit, Trash2, Plus } from 'lucide-react';
+import { UseDataProvider } from '../../../contexts/DataProvider';
 
 const Question_paper = () => {
   const location=useLocation()
-  const {data}=location.state || []
+  const {resources,Handledeleteresources}=UseDataProvider()
+  console.log(resources)
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedYear, setSelectedYear] = useState('all');
-  const [questionPapers, setQuestionPapers] = useState([...data]);
+  const [questionPapers, setQuestionPapers] = useState([...resources?.questionpaper||""]);
 
 
-    const subjects = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sub_name)))];
+  const subjects = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sub_name)))];
   const years = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.year.split('-')[1]))).sort().reverse()];
 
   const filteredPapers = questionPapers.filter(paper => {
@@ -23,9 +25,9 @@ const Question_paper = () => {
   });
 
 
-  const handleDelete = (id) => {
+  const handleDelete = (data) => {
     if (window.confirm('Are you sure you want to delete this question paper?')) {
-      setQuestionPapers(questionPapers.filter(paper => paper.id !== id));
+       Handledeleteresources(data.Key,"Question",data._id)
     }
   };
 
@@ -126,7 +128,7 @@ const Question_paper = () => {
                     <Edit className="h-4 w-4" />
                   </button>
                   <button 
-                    onClick={() => handleDelete(paper.id)}
+                    onClick={() => handleDelete(paper)}
                     className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                     title="Delete question paper"
                   >

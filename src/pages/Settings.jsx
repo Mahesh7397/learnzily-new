@@ -25,15 +25,16 @@ import {
   Sun,
   Monitor
 } from "lucide-react";
+import { UseDataProvider } from "../contexts/DataProvider";
 
 const Settings = () => {
-  const { theme, setTheme } = useTheme();
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "+1 234 567 8900",
-    school: "State University"
-  });
+  const { theme, setTheme } = useTheme(); 
+  const {Userdata}=UseDataProvider()
+  const [profile, setProfile] = useState(Userdata);
+
+ 
+  
+  console.log(Userdata)
 
   const handleLogout = () => {
     // Implement logout logic
@@ -115,7 +116,7 @@ const Settings = () => {
                   <Label htmlFor="name">Full Name</Label>
                   <Input
                     id="name"
-                    value={profile.name}
+                    value={profile.displayName}
                     onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
                   />
                 </div>
@@ -140,7 +141,7 @@ const Settings = () => {
                   <Label htmlFor="school">School/College</Label>
                   <Input
                     id="school"
-                    value={profile.school}
+                    value={profile.institutionName}
                     onChange={(e) => setProfile(prev => ({ ...prev, school: e.target.value }))}
                   />
                 </div>
@@ -218,69 +219,6 @@ const Settings = () => {
               </div>
             </CardContent>
           </Card>
-
-          {/* Uploads & Downloads */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Download className="w-5 h-5" />
-                Uploads & Downloads
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-base font-medium">Auto-sync Files</Label>
-                  <p className="text-sm text-muted-foreground">Automatically sync your study materials</p>
-                </div>
-                <Switch>Auto-sync</Switch>
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-base font-medium">Download Quality</Label>
-                  <p className="text-sm text-muted-foreground">Choose download quality for materials</p>
-                </div>
-                <Button variant="outline">Configure</Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Subscription & Billing */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CreditCard className="w-5 h-5" />
-                Subscription & Billing
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-base font-medium">Current Plan</Label>
-                  <p className="text-sm text-muted-foreground">Free Plan - Upgrade for more features</p>
-                </div>
-                <Button>Upgrade Plan</Button>
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-base font-medium">Payment Method</Label>
-                  <p className="text-sm text-muted-foreground">Manage your payment information</p>
-                </div>
-                <Button variant="outline">Manage Payment</Button>
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-base font-medium">Billing History</Label>
-                  <p className="text-sm text-muted-foreground">View your past transactions</p>
-                </div>
-                <Button variant="outline">View History</Button>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Help Desk */}
           <Card>
             <CardHeader>
@@ -296,26 +234,9 @@ const Settings = () => {
                     <Label className="text-base font-medium">Contact Support</Label>
                     <p className="text-sm text-muted-foreground">Get help from our support team</p>
                   </div>
-                  <Button variant="outline">Contact Us</Button>
+                  <Button  variant="outline">Contact Us</Button>
                 </div>
                 <Separator />
-                
-                {/* FAQ Section */}
-                <div>
-                  <Label className="text-base font-medium mb-4 block">Frequently Asked Questions</Label>
-                  <Accordion type="single" collapsible className="w-full">
-                    {faqData.map((faq, index) => (
-                      <AccordionItem key={index} value={`item-${index}`}>
-                        <AccordionTrigger className="text-left">
-                          {faq.question}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          {faq.answer}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </div>
               </div>
             </CardContent>
           </Card>

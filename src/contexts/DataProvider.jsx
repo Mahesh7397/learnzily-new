@@ -13,8 +13,10 @@ export const DataProvider = ({ children }) => {
     const [role, setrole] = useState("")
     const Navigate = useNavigate()
     const { showAlert } = useAlert()
-    const [result,setresult]=useState([])
-    const [searchQuery,setSearchQuery]=useState("")
+    const [result, setresult] = useState([])
+    const [searchQuery, setSearchQuery] = useState("")
+    const [resources, setResources] = useState({});
+    const [university,setuniversity]=useState("")
 
     const Googleprovider = new GoogleAuthProvider()
 
@@ -28,19 +30,19 @@ export const DataProvider = ({ children }) => {
         })
     }
 
-    const Handlesignup = async (email, password,name) => {
+    const Handlesignup = async (email, password, name) => {
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password)
-            const req=await api.post('/api/signup',{
-                email:email,
-                password:password,
-                userdata:{...user,displayName:name}
+            const req = await api.post('/api/signup', {
+                email: email,
+                password: password,
+                userdata: { ...user, displayName: name }
             })
-            if(req.ok){
+            if (req.ok) {
                 Navigate('/login')
             }
-            else{
-                Alert("error","Try Again Later")
+            else {
+                Alert("error", "Try Again Later")
             }
         } catch (error) {
             Alert("error", error.code, "")
@@ -62,7 +64,8 @@ export const DataProvider = ({ children }) => {
             await localStorage.setItem("learnzilyRole", JSON.stringify({ CharToken: (serverres.data.Gatetoken).split("-")[1] }))
             await localStorage.setItem("learnzilyToken", JSON.stringify({ acesstoken: serverres.data.accessToken }))
 
-            await getuserdata()
+            await getuserdata(true)
+            console.log("login success")
             Alert("success", serverres.data.message)
         } catch (error) {
             Alert("error", error.code, "")
@@ -71,17 +74,18 @@ export const DataProvider = ({ children }) => {
     }
 
 
-    const getuserdata = async () => {
+    const getuserdata = async (trigger) => {
         try {
-            console.log("hiii")
-            const actoken=await localStorage.getItem("learnzilyToken")
-            const chtoken=await localStorage.getItem("learnzilyRole")
-            if (actoken == null || chtoken == null) {
-                Navigate("/")
+
+            const actoken = await localStorage.getItem("learnzilyToken")
+            const chtoken = await localStorage.getItem("learnzilyRole")
+            if (actoken === null || chtoken === null) {
+                trigger && Navigate("/")
             }
             else {
-                const { acesstoken } = JSON.parse(actoken) 
-                const { CharToken } = JSON.parse(chtoken) 
+
+                const { acesstoken } = JSON.parse(actoken)
+                const { CharToken } = JSON.parse(chtoken)
                 const data = await api.get("/api/user/profile", {
                     headers: {
                         "Authorization": `Bearer ${acesstoken}`,
@@ -89,9 +93,10 @@ export const DataProvider = ({ children }) => {
                     }
                 })
                 if (data.data.userdata) {
+
                     setUserdata(data.data.userdata)
-                    const check=await RefreshToken()
-                    data.data.userdata.OnBoardingfinish && check? Navigate('/dashboard') : Navigate('/onboarding')
+                    const check = await RefreshToken()
+                    data.data.userdata.OnBoardingfinish && check ? trigger ? Navigate('/dashboard') : null : Navigate('/onboarding')
                 }
                 else {
                     Navigate('/login')
@@ -115,7 +120,7 @@ export const DataProvider = ({ children }) => {
             await localStorage.setItem("learnzilyRole", JSON.stringify({ CharToken: (serverres.data.Gatetoken).split("-")[1] }))
             await localStorage.setItem("learnzilyToken", JSON.stringify({ acesstoken: serverres.data.accessToken }))
 
-            await getuserdata()
+            await getuserdata(true)
             Alert("success", serverres.data.message)
         } catch (error) {
             Alert("error", error.code, "")
@@ -132,7 +137,7 @@ export const DataProvider = ({ children }) => {
                     "Content-Type": "application/json"
                 }
             })
-            await getuserdata()
+            await getuserdata(true)
             Alert("success", req.data.message)
         } catch (error) {
             Alert("error", error.code, "")
@@ -140,7 +145,7 @@ export const DataProvider = ({ children }) => {
     }
     const RefreshToken = async () => {
         try {
-             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+            const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
             const req = await api.get('/api/user/refresh-token', {
                 headers: {
                     "Authorization": `Bearer ${acesstoken}`,
@@ -149,46 +154,47 @@ export const DataProvider = ({ children }) => {
             })
             await localStorage.setItem("learnzilyRole", JSON.stringify({ CharToken: (req.data.Gatetoken).split("-")[1] }))
             await localStorage.setItem("learnzilyToken", JSON.stringify({ acesstoken: req.data.accessToken }))
-            setrole((req.data.Gatetoken).split("-")[1] )
+            setrole((req.data.Gatetoken).split("-")[1])
             return true
         } catch (error) {
             return false
         }
     }
 
-    const Logout=async()=>{
+    const Logout = async () => {
         try {
             await localStorage.removeItem("learnzilyRole")
             await localStorage.removeItem("learnzilyToken")
-            getuserdata()
-            Alert("success","Successfully Logout!")
+            getuserdata(true)
+            Alert("success", "Successfully Logout!")
         } catch (error) {
             console.log(error)
         }
     }
 
 
-    const HandleUpload=async(data,file)=>{
+    const HandleUpload = async (data, file) => {
         try {
             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
-            const req=await api.post(`/auth/resources/upload/${data.sem_month_year||"None"}/${data.collegename||"None"}/${data.filename||"None"}/${data.filecode||"None"}/${data.type||"None"}/${data.degree||"None"}/${data.field||"None"}`,file,{
+            const req = await api.post(`/auth/resources/upload/${data.sem_month_year || "None"}/${data.collegename || "None"}/${data.filename || "None"}/${data.filecode || "None"}/${data.type || "None"}/${data.degree || "None"}/${data.field || "None"}`, file, {
                 headers: {
                     "Authorization": `Bearer ${acesstoken}`,
                     "Content-Type": "multipart/form-data"
                 }
             })
-
-            Alert("success",req.data.message)
+            const t=await getallresourcesdata()
+            setResources(t)
+            Alert("success", req.data.message)
         } catch (error) {
             console.log(error)
         }
     }
 
-    const getallresourcesdata=async()=>{
+    const getallresourcesdata = async () => {
         try {
-             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
-            const req=await api.get('/auth/resource/alldata',{
-                headers:{
+            const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+            const req = await api.get('/auth/resource/alldata', {
+                headers: {
                     "Authorization": `Bearer ${acesstoken}`,
                     "Content-Type": "application/json"
                 }
@@ -196,18 +202,18 @@ export const DataProvider = ({ children }) => {
             return req.data
         } catch (error) {
             console.log(error)
-            Alert('error',error.message)
+            Alert('error', error.message)
         }
     }
-    
-    const searchitem=async()=>{
-        try {
-             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
 
-            const req=await api.get(`/api/search?q=${searchQuery}`,{
-                headers:{
+    const searchitem = async () => {
+        try {
+            const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+
+            const req = await api.get(`/api/search?q=${searchQuery}`, {
+                headers: {
                     "Authorization": `Bearer ${acesstoken}`,
-                    "Content-Type":"application/json"
+                    "Content-Type": "application/json"
                 }
             })
 
@@ -216,16 +222,16 @@ export const DataProvider = ({ children }) => {
             setresult([])
         }
     }
-    
-    const HandleLink=async(key)=>{
+
+    const HandleLink = async (key) => {
         try {
-             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
-            const url= await api.get("/api/resouce-url",{
-                params:{
-                    key:key
+            const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+            const url = await api.get("/api/resouce-url", {
+                params: {
+                    key: key
                 }
-            },{
-                headers:{
+            }, {
+                headers: {
                     "Authorization": `Bearer ${acesstoken}`,
                     "Content-Type": "multipart/form-data"
                 }
@@ -236,9 +242,147 @@ export const DataProvider = ({ children }) => {
         }
     }
 
+    class College {
+        constructor() {
+            this.accessToken = ''
+            this.Getaccesstoken()
+        }
+        async Getaccesstoken() {
+            try {
+                const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+                this.accessToken = acesstoken
+            } catch (error) {
+                this.accessToken = null
+            }
+        }
+        async Addcollege(collegename, college_unversity,coursesOffered) {
+            try {
+                const data = {
+                    collegeName: collegename,
+                    college_University: college_unversity,
+                    coursesOffered:coursesOffered
+                }
+                const req = await api.post('/api/addcollege', data, {
+                    headers: {
+                        "Authorization": `Bearer ${this.accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+                })
+                Alert("success", req.data.message)
+            } catch (error) {
+                Alert("error", error.code, "")
+            }
+        }
+        async Getallcollege() {
+            try {
+                const req = await api.get('/api/getallcolleges', {
+                    headers: {
+                        "Authorization": `Bearer ${acesstoken}`, "Content-Type": "application/json" }
+                })
+                return req.data.colleges
+            } catch (error) {
+                Alert("error", error.code, "")
+            }
+        }
+        async Editcollege(collegeid, collegename, college_unversity,coursesOffered) {
+            try {
+                const data = {
+                    collegeName: collegename,
+                    college_University: college_unversity,
+                    coursesOffered:coursesOffered
+                }
+                const req = await api.put(`/api/editcollege/${collegeid}`, data, {
+                    headers: {
+                        "Authorization": `Bearer ${this.accessToken}`,
+                        "Content-Type": "application/json"
+                    }
+                })
+                Alert("success", req.data.message)
+            } catch (error) {
+                Alert("error", error.code, "")
+            }
+        }
+        async Deletecollege(collegeid) {
+            try {
+                const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+                const req = await api.delete(`/api/deletecollege/${collegeid}`, {
+                    headers: {  "Authorization": `Bearer ${this.accessToken}`, "Content-Type": "application/json" }
+                })
+                Alert("success", req.data.message)
+            } catch (error) {
+                Alert("error", error.code, "")
+            }
+        }
+    }
+    const Getallusers=async()=>{
+            try {
+                const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+                if(acesstoken===null){
+                    return
+                }
+                const req = await api.get('/auth/userdata', {
+                    headers: {"Authorization": `Bearer ${acesstoken}`, "Content-Type": "application/json" }
+                })
+                return req.data
+            } catch (error) {
+                Alert("error", error.code, "")
+            }
+        }
+    const DeleteUser=async(userid)=>{
+            try {
+                const req = await api.delete(`/api/admin/deleteuser/${userid}`, {
+                    headers: {  "Authorization": `Bearer ${this.accessToken}`, "Content-Type": "application/json" }
+                })
+                Alert("success", req.data.message)
+                this.Getallusers()
+            } catch (error) {
+                Alert("error", error.code, "")
+            }
+        }
+
+    const checkCollege=async(collegename)=>{
+        try {
+            const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+            if(acesstoken===null || collegename===undefined || collegename===""){
+                return
+            }
+            const req = await api.get(`/api/checkcollege/${collegename}`, {
+                headers: {  "Authorization": `Bearer ${acesstoken}`, "Content-Type": "application/json" }
+            })
+            setuniversity(req.data.college_University)
+        } catch (error) {
+            Alert("error", error.code, "")
+        }
+    }
+
+    const Handledeleteresources=async(key,type,id)=>{
+        try {
+            console.log("Deleted started", key,type,id)
+            const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
+            console.log(acesstoken)
+            const req=await api.delete(`/auth/resources/delete`,{
+                params:{ key: key, type: type, id: id },
+                                    headers: {
+                        "Authorization": `Bearer ${acesstoken}`,
+                        "Content-Type": "application/json"
+                    }
+                })
+            if(req.data.ok){
+                const ne=await getallresourcesdata()
+                setResources(ne)
+            }   
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(()=>{
+        getuserdata(false)
+        checkCollege(Userdata.collegename)
+    },[])
 
     return (
-        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role ,Logout,HandleUpload,getallresourcesdata,searchQuery,setSearchQuery,result,searchitem,setresult,getuserdata}}>
+        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role, Logout, HandleUpload, getallresourcesdata, searchQuery, setSearchQuery, result, searchitem, setresult, getuserdata, setResources, resources, College ,Handledeleteresources,checkCollege,HandleLink,university,Getallusers,DeleteUser}}>
             {children}
         </Datacontext.Provider>
     )

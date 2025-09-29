@@ -95,7 +95,6 @@ const navigation = [
 
 const tools = [
   { title: "Grade Calculator", url: "/tools/grade-calculator" },
-  { title: "Percentage Calculator", url: "/tools/percentage-calculator" },
   { title: "Grade Tracker", url: "/tools/grade-tracker" },
   { title: "Grade Predictor", url: "/tools/grade-predictor" },
 ];

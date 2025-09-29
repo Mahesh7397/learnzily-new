@@ -190,7 +190,7 @@ export const NavbarLogo = () => {
       <div className="w-8 h-8 bg-gradient-to-br from-brand to-brand-foreground rounded-lg flex items-center justify-center">
         <span className="text-white font-bold text-lg">L</span>
       </div>
-      <span className="font-bold text-black dark:text-white text-xl">LearnEze</span>
+      <span className="font-bold text-black dark:text-white text-xl">LearnEzily</span>
     </a>
   );
 };

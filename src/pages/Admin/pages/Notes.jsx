@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { Search, Download, Calendar, User, BookOpen, Edit, Trash2, Plus } from 'lucide-react';
+import { UseDataProvider } from '../../../contexts/DataProvider';
 
 const Notes = () => {
   const location = useLocation()
-  const { data } = location.state || [];
-  console.log(data)
+  const { resources,Handledeleteresources } = UseDataProvider()
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
-  const [notes, setNotes] = useState([...data])
+  const [notes, setNotes] = useState([...resources.notes||""])
 
   {/**
     College_Degree: "majskj"
@@ -26,9 +26,9 @@ Sub_name: "test"
     return matchesSearch && matchesSubject;
   });
 
-  const handleDelete = (id) => {
+  const handleDelete = (data) => {
     if (window.confirm('Are you sure you want to delete this note?')) {
-      setNotes(notes.filter(note => note.id !== id));
+       Handledeleteresources(data.Key,"Notes",data._id)
     }
   };
 
@@ -113,7 +113,7 @@ Sub_name: "test"
                     <Edit className="h-4 w-4" />
                   </button>
                   <button
-                    onClick={() => handleDelete(note.id)}
+                    onClick={() => handleDelete(note)}
                     className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                     title="Delete note"
                   >

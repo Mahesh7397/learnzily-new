@@ -22,7 +22,7 @@ import { UseDataProvider } from '../contexts/DataProvider';
 const Index = () => {
   const {getuserdata}=UseDataProvider()
   useEffect(()=>{
-     getuserdata()
+     getuserdata(true)
   },[])
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -175,7 +175,7 @@ const Index = () => {
       </Navbar>
             <div className="pt-20">
         <HeroWithMockup
-          title="Transform Your Learning Journey with LearnEze"
+          title="Transform Your Learning Journey with LearnEzily"
           description="The ultimate AI-powered learning platform that combines smart study tools, peer collaboration, and personalized tutoring to accelerate your academic success."
           primaryCta={{
             text: "Start Learning Free",
@@ -187,7 +187,7 @@ const Index = () => {
             icon: <BookOpen className="mr-2 h-4 w-4" />,
           }}
           mockupImage={{
-            alt: "LearnEze Platform Dashboard",
+            alt: "LearnEzily Platform Dashboard",
             width: 1248,
             height: 765,
             src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
@@ -216,7 +216,7 @@ const Index = () => {
             Ready to Transform Your Learning?
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of students who are already achieving their academic goals with LearnEze
+            Join thousands of students who are already achieving their academic goals with LearnEzily
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <NavbarButton variant="gradient" className="text-lg px-8 py-3" href="/signup">

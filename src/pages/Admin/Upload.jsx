@@ -317,7 +317,7 @@ const formatMonthYear = (value) => {
                   Semester/Month/Year {requiredFields.includes('sem_month_year') ? '*' : ''}
                 </label>
                 <input
-                  type="month"
+                  type="date"
                   name="sem_month_year"
                   value={formData.sem_month_year}
                   onChange={handleInputChange}
@@ -414,7 +414,7 @@ const formatMonthYear = (value) => {
 
             <button
               type="submit"
-              className="mt-8 w-full gradient-primary text-primary-foreground font-medium py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-primary hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="mt-8 w-full gradient-primary text-foreground font-medium py-3 px-6 rounded-lg transition-all duration-200  bg-blue-600 hover:shadow-primary hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 border-border"
               disabled={!currentFile}
             >
               Upload {formData.type === 'notes' ? 'Notes' : 'Question Paper'}

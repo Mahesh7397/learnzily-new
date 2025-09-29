@@ -81,9 +81,9 @@ const footerData = {
     email: "mohamedfazilrm@gmail.com",
     phone: "+1 (555) 123-4567"
   },
-  title: "LearnEze",
+  title: "LearnEzily",
   subtitle: "Smart Learning Platform",
-  copyright: "©2024 LearnEze. All rights reserved",
+  copyright: "©2024 LearnEzily. All rights reserved",
 }
 
 // NavSection Component

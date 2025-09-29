@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Plus, Eye, Ban, Trash2, MoreHorizontal } from 'lucide-react';
 import { mockUsers } from '../../data/mockData';
+import { UseDataProvider } from '../../contexts/DataProvider';
 
 const UserList = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [users, setUsers] = useState(mockUsers);
+  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const {Getallusers}=UseDataProvider()
+ 
+  const handleuser=async()=>{
+    try {
+      const response=await Getallusers()
+      setUsers(response.Users)
+      console.log(response.Users)
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }
 
+  useEffect(()=>{
+    handleuser()
+  },[])
+  
+// 
   const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
-    return matchesSearch && matchesStatus;
+
+    const matchesSearch = user?.Userdata?.displayName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+                         user?.email?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch ;
   });
 
   const handleBlockUser = (userId) => {
@@ -29,6 +45,10 @@ const UserList = () => {
       setUsers(users.filter(user => user.id !== userId));
     }
   };
+
+  // useEffect(()=>{
+  //   Admincontroller.Getallusers()
+  // },[])
 
   return (
     <div className="space-y-6">
@@ -53,22 +73,6 @@ const UserList = () => {
               className="pl-10 pr-4 py-2 border border-border bg-background rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
             />
           </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Filter className="w-5 h-5 text-gray-400" />
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="border border-border rounded-lg bg-background px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="all">All Status</option>
-                <option value="active">Active</option>
-                <option value="blocked">Blocked</option>
-                <option value="pending">Pending</option>
-              </select>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -79,52 +83,37 @@ const UserList = () => {
             <thead className="bg-background border-b border-border">
               <tr>
                 <th className="text-left py-4 px-6 font-semibold text-foreground">User</th>
-                <th className="text-left py-4 px-6 font-semibold text-foreground">Status</th>
                 <th className="text-left py-4 px-6 font-semibold text-foreground">Role</th>
-                <th className="text-left py-4 px-6 font-semibold text-foreground">Join Date</th>
-                <th className="text-left py-4 px-6 font-semibold text-foreground">Last Login</th>
-                <th className="text-right py-4 px-6 font-semibold text-foreground">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y border-border">
               {filteredUsers.map((user) => (
-                <tr key={user.id} className=" transition-colors">
+                <tr key={user._id} className=" transition-colors">
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-background rounded-full flex items-center justify-center">
+                      {/* <div className="w-10 h-10 bg-background rounded-full flex items-center justify-center">
                         <span className="text-foreground font-medium">
-                          {user.name.split(' ').map(n => n[0]).join('')}
+                          {user.Userdata.displayName.split('')[0].toUpperCase()}
                         </span>
-                      </div>
+                      </div> */}
                       <div>
-                        <p className="font-medium text-foreground">{user.name}</p>
+                        <p className="font-medium text-foreground">{user.Userdata.displayName}</p>
                         <p className="text-sm text-foreground">{user.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-6">
-                    <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
-                      user.status === 'active' ? 'bg-green-100 text-green-800' :
-                      user.status === 'blocked' ? 'bg-red-100 text-red-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {user.status}
-                    </span>
-                  </td>
-                  <td className="py-4 px-6 text-foreground">{user.role}</td>
-                  <td className="py-4 px-6 text-foreground">{user.joinDate}</td>
-                  <td className="py-4 px-6 text-foreground">{user.lastLogin}</td>
+                  <td className="py-4 px-6 text-foreground">{user.Role}</td>
                   <td className="py-4 px-6">
                     <div className="flex items-center justify-end space-x-2">
                       <Link
-                        to={`/users/${user.id}`}
+                        to={`/users/${user._id}`}
                         className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
                         title="View Details"
                       >
                         <Eye className="w-4 h-4" />
                       </Link>
                       <button
-                        onClick={() => handleBlockUser(user.id)}
+                        onClick={() => handleBlockUser(user._id)}
                         className={`p-2 rounded-lg transition-colors ${
                           user.status === 'blocked'
                             ? 'text-green-600 hover:bg-green-100'
@@ -135,14 +124,14 @@ const UserList = () => {
                         <Ban className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleDeleteUser(user.id)}
+                        onClick={() => handleDeleteUser(user._id)}
                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
                         title="Delete User"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => setSelectedUser(selectedUser === user.id ? null : user.id)}
+                        onClick={() => setSelectedUser(selectedUser === user._id ? null : user._id)}
                         className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                       >
                         <MoreHorizontal className="w-4 h-4" />
@@ -160,27 +149,6 @@ const UserList = () => {
             <p className="text-gray-500 text-lg">No users found matching your criteria</p>
           </div>
         )}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex items-center justify-between bg-background px-6 py-4 border border-border rounded-lg">
-        <div className="text-sm text-gray-500">
-          Showing {filteredUsers.length} of {users.length} users
-        </div>
-        <div className="flex space-x-2">
-          <button className="px-3 py-2 border border-gray-300 rounded-lg disabled:opacity-50">
-            Previous
-          </button>
-          <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            1
-          </button>
-          <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            2
-          </button>
-          <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            Next
-          </button>
-        </div>
       </div>
     </div>
   );

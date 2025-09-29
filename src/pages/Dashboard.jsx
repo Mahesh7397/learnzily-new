@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const [completedTasks, setCompletedTasks] = useState(0);
   const [forumPosts, setForumPosts] = useState([]);
-  const { Userdata } = UseDataProvider();
+  const { Userdata ,getuserdata} = UseDataProvider();
   const displayName = Userdata?.displayName || "User";
   useEffect(() => {
     const savedEvents = localStorage.getItem('dashboard_events');
@@ -33,6 +33,10 @@ const Dashboard = () => {
       setForumPosts(parsedPosts);
     }
   }, []);
+
+  useEffect(()=>{
+    getuserdata(false)
+  },[])
 
   useEffect(() => {
     const checkNotifications = () => {

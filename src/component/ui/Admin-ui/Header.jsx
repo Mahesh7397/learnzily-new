@@ -1,10 +1,13 @@
 import React from 'react';
 import { Menu, Bell, Search, User, House  } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { UseDataProvider } from '../../../contexts/DataProvider';
 
 
 const Header = ({ onMenuClick }) => {
   const Navigate=useNavigate()
+  const {Userdata}=UseDataProvider()
+  console.log(Userdata)
   return (
     <header className="bg-card border-b border-border px-6 py-4 transition-colors">
       <div className="flex items-center justify-between">
