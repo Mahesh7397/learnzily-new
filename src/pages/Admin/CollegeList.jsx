@@ -39,12 +39,13 @@ const CollegeList= () => {
     }
   };
 
-  useEffect(async()=>{
-       const res= await initcollege.getAllColleges()
-       setresult(res)
-       setColleges(res)
-       setSearchTerm('')
-  },[])
+  // useEffect(async()=>{
+  //      const initcolleges=new College()
+  //      const res= await initcolleges.getAllColleges()
+  //      setresult(res)
+  //      setColleges(res)
+  //      setSearchTerm('')
+  // },[])
 
   useEffect(()=>{
     const filtered = result.filter(college =>

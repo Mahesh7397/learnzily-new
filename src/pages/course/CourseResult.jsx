@@ -1,9 +1,10 @@
 import React from 'react';
-import { Download, Eye, Star, Calendar, User, FileText, GraduationCap } from 'lucide-react';
+import { Download, Eye, Bookmark, Calendar, User, FileText, GraduationCap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 
 const SearchResultCard = ({ result }) => {
-  console.log(result)
+  const Navigate=useNavigate()
   const getTypeIcon = () => {
     return result.type === 'notes' ? FileText : GraduationCap;
   };
@@ -12,8 +13,8 @@ const SearchResultCard = ({ result }) => {
     return result.type === 'notes' ? 'text-green-600 bg-green-50' : 'text-purple-600 bg-purple-50';
   };
 
-  const preview=async()=>{
-    
+  const preview=(key)=>{
+    Navigate('/pdf_view',{state:{key}})
   }
 
   const TypeIcon = getTypeIcon();
@@ -45,7 +46,7 @@ const SearchResultCard = ({ result }) => {
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <div className="flex items-center gap-1">
               <Calendar className="w-3 h-3" />
-              {result.Key.includes("notes")?result.Issue_date:Sem_month_year}
+              {result.Key.includes("notes")?result.Issue_date:result.Sem_month_year}
             </div>
           </div>
         </div>
@@ -71,12 +72,12 @@ const SearchResultCard = ({ result }) => {
       {/* Card Footer */}
       <div className="px-4 pb-4">
         <div className="flex gap-2">
-          <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 text-foreground font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm">
-            <Download className="w-4 h-4" />
-            Download
+          <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 text-foreground font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 text-sm" onClick={()=>preview(result.Key)}>
+            <Eye className="w-4 h-4" />
+            PreView
           </button>
           <button className="flex items-center justify-center gap-2 px-3 py-2 border border-gray-200 text-foreground font-medium rounded-lg hover:bg-gray-50 transition-all duration-200 text-sm">
-            <Eye className="w-4 h-4" />
+            <Bookmark className="w-4 h-4" />
           </button>
         </div>
       </div>

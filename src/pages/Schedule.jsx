@@ -59,9 +59,8 @@ const Schedule = () => {
 
   // Transform events for calendar display
   const scheduleData = events.reduce((acc, event) => {
-    const eventDate = new Date(event.datetime);
+    const eventDate = new Date(event.date);
     const dateKey = eventDate.toDateString();
-    
     if (!acc[dateKey]) {
       acc[dateKey] = {
         day: eventDate,
@@ -84,10 +83,10 @@ const Schedule = () => {
   const calendarData = Object.values(scheduleData);
 
   // Filter events by search term
-  const filteredEvents = events.filter(event =>
-    event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredEvents = events.filter(event =>
+  //   event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   event.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   const getDateLabel = (date) => {
     if (isToday(date)) return "Today";
@@ -128,7 +127,7 @@ const Schedule = () => {
 
   const handleEditEvent = (eventData) => {
     const updatedEvents = events.map(event => 
-      event.id === eventId ? { ...eventData, id: eventId, completed: event.completed } : event
+      event.id === event.Id ? { ...eventData, id: event.Id, completed: event.completed } : event
     );
     setEvents(updatedEvents);
     localStorage.setItem('schedule_events', JSON.stringify(updatedEvents));
@@ -269,8 +268,8 @@ const Schedule = () => {
                         .filter(event => {
                           const fullEvent = events.find(e => e.id === event.id);
                           return !searchTerm || (fullEvent && (
-                            fullEvent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            fullEvent.description?.toLowerCase().includes(searchTerm.toLowerCase())
+                            fullEvent.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            fullEvent.details?.toLowerCase().includes(searchTerm.toLowerCase())
                           ));
                         })
                         .map((event) => {
@@ -302,8 +301,8 @@ const Schedule = () => {
                                   )}
                                 </div>
                               </div>
-                              <h4 className="font-semibold text-sm mb-1">{event.name}</h4>
-                              {event.description && (
+                              <h4 className="font-semibold text-sm mb-1">{event.title}</h4>
+                              {event.details && (
                                 <p className="text-xs opacity-75">{event.description}</p>
                               )}
                             </div>
@@ -336,8 +335,8 @@ const Schedule = () => {
                           .filter((event) => {
                             const fullEvent = events.find(e => e.id === event.id);
                             return !searchTerm || (fullEvent && (
-                              fullEvent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                              fullEvent.description?.toLowerCase().includes(searchTerm.toLowerCase())
+                              fullEvent.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                              fullEvent.details?.toLowerCase().includes(searchTerm.toLowerCase())
                             ));
                           })
                           .map((event) => {
@@ -369,7 +368,7 @@ const Schedule = () => {
                                     )}
                                   </div>
                                 </div>
-                                <h4 className="font-semibold text-xs">{event.name}</h4>
+                                <h4 className="font-semibold text-xs">{event.title}</h4>
                               </div>
                             );
                           })}

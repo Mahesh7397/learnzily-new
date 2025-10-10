@@ -26,15 +26,18 @@ const Header= ({ searchQuery, onSearchChange }) => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-3 order-1 sm:order-2 w-full sm:w-auto justify-between sm:justify-end">
-          <button className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-theme">
+          {/* <button className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-theme">
             <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="font-medium text-sm sm:text-base hidden sm:inline">Upload</span>
-          </button>
-          
+          </button> */}
           <button className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 bg-brand text-foreground hover:opacity-90 rounded-lg transition-theme shadow-sm hover:shadow-md">
+            <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="font-medium text-sm sm:text-base">Upload</span>
+          </button>
+          {/* <button className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 bg-brand text-foreground hover:opacity-90 rounded-lg transition-theme shadow-sm hover:shadow-md">
             <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="font-medium text-sm sm:text-base">Add Course</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </header>

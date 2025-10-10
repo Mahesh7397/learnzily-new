@@ -17,6 +17,7 @@ export const DataProvider = ({ children }) => {
     const [searchQuery, setSearchQuery] = useState("")
     const [resources, setResources] = useState({});
     const [university,setuniversity]=useState("")
+    const [loading, setloading] = useState(false)
 
     const Googleprovider = new GoogleAuthProvider()
 
@@ -52,23 +53,23 @@ export const DataProvider = ({ children }) => {
 
     const Handlelogin = async (email, Password) => {
         try {
+            setloading(true)
             const user = await signInWithEmailAndPassword(auth, email, Password)
             if (!user) { return { message: "Login failed" } }
-            console.log(user.user.providerData[0])
             const serverres = await api.post("/api/login", {
                 email: email,
                 password: Password,
                 data: user.user.providerData[0]
             })
-            console.log(serverres)
             await localStorage.setItem("learnzilyRole", JSON.stringify({ CharToken: (serverres.data.Gatetoken).split("-")[1] }))
             await localStorage.setItem("learnzilyToken", JSON.stringify({ acesstoken: serverres.data.accessToken }))
 
             await getuserdata(true)
-            console.log("login success")
+            setloading(false)
             Alert("success", serverres.data.message)
         } catch (error) {
             Alert("error", error.code, "")
+            setloading(false)
             throw new Error(error.code)
         }
     }
@@ -76,7 +77,6 @@ export const DataProvider = ({ children }) => {
 
     const getuserdata = async (trigger) => {
         try {
-
             const actoken = await localStorage.getItem("learnzilyToken")
             const chtoken = await localStorage.getItem("learnzilyRole")
             if (actoken === null || chtoken === null) {
@@ -109,6 +109,7 @@ export const DataProvider = ({ children }) => {
 
     const GoogleLoginandsignup = async () => {
         try {
+            setloading(true)
             const user = await signInWithPopup(auth, Googleprovider)
             if (!user) { return { message: "Login failed" } }
             const serverres = await api.post("/api/googlelogin", {
@@ -116,13 +117,14 @@ export const DataProvider = ({ children }) => {
                 googleid: user.user.uid,
                 data: user.user.providerData[0]
             })
-            console.log(serverres)
             await localStorage.setItem("learnzilyRole", JSON.stringify({ CharToken: (serverres.data.Gatetoken).split("-")[1] }))
             await localStorage.setItem("learnzilyToken", JSON.stringify({ acesstoken: serverres.data.accessToken }))
 
             await getuserdata(true)
+            setloading(false)
             Alert("success", serverres.data.message)
         } catch (error) {
+            setloading(false)
             Alert("error", error.code, "")
             throw new Error(error.code)
         }
@@ -130,6 +132,7 @@ export const DataProvider = ({ children }) => {
 
     const Onboardingfinish = async (data) => {
         try {
+            setloading(true)
             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
             const req = await api.post('/api/user/onboarding', data, {
                 headers: {
@@ -138,6 +141,7 @@ export const DataProvider = ({ children }) => {
                 }
             })
             await getuserdata(true)
+            setloading(false)
             Alert("success", req.data.message)
         } catch (error) {
             Alert("error", error.code, "")
@@ -208,6 +212,7 @@ export const DataProvider = ({ children }) => {
 
     const searchitem = async () => {
         try {
+            setloading(true)
             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
 
             const req = await api.get(`/api/search?q=${searchQuery}`, {
@@ -216,28 +221,28 @@ export const DataProvider = ({ children }) => {
                     "Content-Type": "application/json"
                 }
             })
-
+            setloading(false)
             setresult(req.data.result)
         } catch (error) {
+            setloading(false)
             setresult([])
         }
     }
 
     const HandleLink = async (key) => {
         try {
+            setloading(true)
             const { acesstoken } = JSON.parse(await localStorage.getItem("learnzilyToken"))
-            const url = await api.get("/api/resouce-url", {
-                params: {
-                    key: key
-                }
-            }, {
+            const url = await api.get(`/api/resouce-url?key=${key}`, {
                 headers: {
                     "Authorization": `Bearer ${acesstoken}`,
-                    "Content-Type": "multipart/form-data"
+                    "Content-Type":"application/json"
                 }
             })
+            setloading(false)
             return url.data.url
         } catch (error) {
+            setloading(false)
             console.log(error)
         }
     }
@@ -382,7 +387,7 @@ export const DataProvider = ({ children }) => {
     },[])
 
     return (
-        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role, Logout, HandleUpload, getallresourcesdata, searchQuery, setSearchQuery, result, searchitem, setresult, getuserdata, setResources, resources, College ,Handledeleteresources,checkCollege,HandleLink,university,Getallusers,DeleteUser}}>
+        <Datacontext.Provider value={{ Handlesignup, Handlelogin, GoogleLoginandsignup, Userdata, Onboardingfinish, role, Logout, HandleUpload, getallresourcesdata, searchQuery, setSearchQuery, result, searchitem, setresult, getuserdata, setResources, resources, College ,Handledeleteresources,checkCollege,HandleLink,university,Getallusers,DeleteUser,loading}}>
             {children}
         </Datacontext.Provider>
     )

@@ -86,11 +86,12 @@ const staggerVariants = {
 const navigation = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Course", url: "/course", icon: BookOpen },
-  { title: "Forum", url: "/forum", icon: MessageSquare },
+  { title: "Fifi AI", url: "/fifi-ai", icon: Bot },
   { title: "Schedule", url: "/schedule", icon: Calendar },
   { title: "Tutor", url: "/tutor", icon: User },
   { title: "Smart Prep", url: "/smartprep", icon: Brain },
-  { title: "Fifi AI", url: "/fifi-ai", icon: Bot },
+  { title: "Forum", url: "/forum", icon: MessageSquare },
+  
 ];
 
 const tools = [
@@ -198,22 +199,6 @@ export function SessionNavBar() {
 
               {/* Footer */}
               <div className="flex flex-col p-2 space-y-2">
-                {/* Upgrade to Premium */}
-                {!isCollapsed && (
-                  <div className="bg-gradient-to-br from-brand/10 to-brand-foreground/10 border border-brand/20 rounded-lg p-3 text-center">
-                    <div className="w-6 h-6 bg-brand rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <Star className="w-3 h-3 text-white" />
-                    </div>
-                    <h4 className="font-semibold text-xs mb-1">Upgrade to Premium</h4>
-                    <p className="text-xs text-muted-foreground mb-2">
-                      Unlock advanced features
-                    </p>
-                    <Button size="sm" className="w-full bg-gradient-to-r from-brand to-brand-foreground text-white text-xs">
-                      Upgrade Now
-                    </Button>
-                  </div>
-                )}
-
                 <Link
                   to="/settings"
                   className="flex h-8 w-full flex-row items-center rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary"

@@ -34,6 +34,7 @@ import GradeCalculator from './pages/tools/GradeCalculator'
 import GradePredictor from './pages/tools/GradePredictor'
 import GradeTracker from './pages/tools/GradeTracker'
 import CollegeList from './pages/Admin/CollegeList'
+import PdfViewer from './pages/course/Pdf_View'
 
 const Router = () => {
     const { Userdata, role } = UseDataProvider()
@@ -60,7 +61,8 @@ const Router = () => {
                         <Route path='grade-calculator' element={<GradeCalculator/>}/>
                         <Route path='grade-tracker' element={<GradeTracker/>} />
                         <Route path='grade-predictor' element={<GradePredictor/>} />
-                    </Route>
+                </Route>
+                <Route path='/pdf_view' element={<PdfViewer/>} />
             </> : null}
             {Userdata && role == import.meta.env.VITE_ADMIN ?
                 <Route path='/admin' element={<Admin />}>

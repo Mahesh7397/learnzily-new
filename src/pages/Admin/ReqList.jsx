@@ -1,27 +1,75 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Search, Download, Calendar, Clock, FileText, Star, Edit, Trash2, Plus } from 'lucide-react';
-import { UseDataProvider } from '../../../contexts/DataProvider';
 
-const Question_paper = () => {
-  const location=useLocation()
-  const {resources,Handledeleteresources}=UseDataProvider()
-  console.log(resources)
+
+const card=(data, handleDelete,handleDownload)=>{
+    return(
+        <div key={data.id} className="bg-card rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow duration-200">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+                    {data.Sub_name}
+                  </h3>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    <span className="inline-block px-2 py-1 bg-success/10 text-success text-xs font-medium rounded-full">
+                      {data.Course_name}
+                    </span>
+                    <span className="inline-block px-2 py-1 bg-accent text-accent-foreground text-xs font-medium rounded-full">
+                      {data.College_Degree}
+                    </span>
+                  </div>
+                </div>
+                <FileText className="h-5 w-5 text-success ml-2 flex-shrink-0" />
+              </div>
+              
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center text-muted-foreground">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Year: {data.Sem_month_year}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between pt-4 border-t border-border">
+                <div className="flex items-center space-x-2">
+                  <button 
+                    onClick={() => handleEdit(data.id)}
+                    className="p-1.5 text-muted-foreground hover:text-info hover:bg-info/10 rounded transition-colors"
+                    title="Edit question paper"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(data)}
+                    className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
+                    title="Delete question paper"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                  <button 
+                    onClick={() => handleDownload(data)}
+                    className="flex items-center space-x-1 bg-success text-success-foreground px-3 py-1.5 rounded-lg hover:bg-success/90 transition-colors text-sm font-medium"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+    )
+}
+
+const ReqList = () => {
+    const location=useLocation()
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('all');
-  const [selectedYear, setSelectedYear] = useState('all');
-  const [questionPapers, setQuestionPapers] = useState([...resources?.questionpaper||""]);
-
-
-  const subjects = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sub_name)))];
-  const years = ['all', ...Array.from(new Set(questionPapers.map(paper => paper.Sem_month_year.split('-')[1]))).sort().reverse()];
 
   const filteredPapers = questionPapers.filter(paper => {
-    const matchesSearch = paper.Sub_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         paper.Course_name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesSubject = selectedSubject === 'all' || paper.Sub_name === selectedSubject;
-    const matchesYear = selectedYear === 'all' || paper.Sem_month_year.split('-')[1] === selectedYear;
-    return matchesSearch && matchesSubject && matchesYear;
+    const matchesSearch = paper.Sub_name.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesSearch 
   });
 
 
@@ -44,7 +92,7 @@ const Question_paper = () => {
   };
 
   return (
-   <div>
+     <div>
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="relative flex-1">
@@ -57,35 +105,7 @@ const Question_paper = () => {
               className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-success focus:border-transparent text-foreground"
             />
           </div>
-          
-          <select
-            value={selectedSubject}
-            onChange={(e) => setSelectedSubject(e.target.value)}
-            className="px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-success focus:border-transparent text-foreground"
-          >
-            {subjects.map(subject => (
-              <option key={subject} value={subject}>
-                {subject === 'all' ? 'All Subjects' : subject}
-              </option>
-            ))}
-          </select>
-          
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-success focus:border-transparent text-foreground"
-          >
-            {years.map(year => (
-              <option key={year} value={year}>
-                {year === 'all' ? 'All Years' : year}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <div className="text-sm text-muted-foreground">
-          Showing {filteredPapers.length} of {questionPapers.length} question papers
-        </div>
+      </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -159,4 +179,4 @@ const Question_paper = () => {
   )
 }
 
-export default Question_paper
+export default ReqList

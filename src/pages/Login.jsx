@@ -5,10 +5,10 @@ import LoaderOne from "../component/ui/loader-one";
 import { UseDataProvider } from "../contexts/DataProvider";
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const { GoogleLoginandsignup,Handlelogin }=UseDataProvider()
+  const { GoogleLoginandsignup,Handlelogin ,loading}=UseDataProvider()
 
   const [email,setemail]=useState("")
   const [Password,setPassword]=useState("")
@@ -38,7 +38,7 @@ const Login = () => {
     }
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">

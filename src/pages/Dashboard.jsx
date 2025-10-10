@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Button } from "../component/ui/button";
 import { Badge } from "../component/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../component/ui/avatar";
-import { CalendarWithEventSlots } from "../component/ui/calendar-with-event-slots";
+import DashboardCalendarWidget from "../component/ui/DashboardCalendarWidget";
 import FocusMode from "../component/FocusMode";
 import TaskChart from "../component/TaskChart";
 import { DashboardHeader } from "../component/DashboardHeader";
@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const [completedTasks, setCompletedTasks] = useState(0);
   const [forumPosts, setForumPosts] = useState([]);
-  const { Userdata ,getuserdata} = UseDataProvider();
+  const { Userdata, getuserdata } = UseDataProvider();
   const displayName = Userdata?.displayName || "User";
   useEffect(() => {
     const savedEvents = localStorage.getItem('dashboard_events');
@@ -34,9 +34,9 @@ const Dashboard = () => {
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getuserdata(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     const checkNotifications = () => {
@@ -163,56 +163,41 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex w-full bg-background">
       <SessionNavBar />
-      <main className="flex-1 ml-12 lg:ml-60 transition-all duration-200">
+      <main className="flex-1 ml-12 lg:ml-20 transition-all duration-200">
         <div className="max-w-7xl mx-auto p-3 md:p-6 space-y-4 md:space-y-6">
-          <div className="flex items-center justify-between w-full p-4 bg-gradient-to-r from-brand to-brand-foreground text-white rounded-lg mb-6">
-            {/* <div className="flex items-center gap-3">
-              <Link to="/forum">
-                <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/20">
-                  <MessageCircle className="w-5 h-5" />
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-blue-500">
-                    {forumPosts.length}
-                  </Badge>
-                </Button>
-              </Link>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center gap-4 w-full">
+            <div className="flex items-center justify-between w-full md:w-2/3  md:w-full p-4 bg-gradient-to-r from-brand to-brand-foreground text-white rounded-3xl">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center">
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback className="bg-orange-300 text-white text-lg font-bold">
+                      {displayName.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
 
-              <Link to="/notifications">
-                <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/20">
-                  <Bell className="w-5 h-5" />
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-red-500">
-                    3
-                  </Badge>
-                </Button>
-              </Link>
-
-              <Link to="/settings">
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
-                  <Settings className="w-5 h-5" />
-                </Button>
-              </Link>
-
-              <Link to="/profile">
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
-                  <User className="w-5 h-5" />
-                </Button>
-              </Link>
-            </div> */}
-
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center">
-                <Avatar className="w-8 h-8">
-                  <AvatarFallback className="bg-orange-300 text-white text-lg font-bold">
-                    {displayName.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <div>
+                  <h1 className="text-xl font-bold mb-1">Hello,{
+                    displayName}</h1>
+                  <p className="text-blue-100 text-sm">
+                    We've missed you! Check out what's new
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-xl font-bold mb-1">Hello,{
-displayName}</h1>
-                <p className="text-blue-100 text-sm">
-                  We've missed you! Check out what's new
-                </p>
-              </div>
+            </div>
+            <div className="flex gap-4 w-full md:w-1/3">
+              <Card className="bg-gradient-to-br w-1/2 from-yellow-50 to-orange-50 border-yellow-200 h-18">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-yellow-600">0</div>
+                  <p className="text-xs text-yellow-400">Points</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br w-1/2 from-yellow-50 to-orange-50 border-yellow-200 h-18">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-yellow-600">0</div>
+                  <p className="text-xs text-yellow-400">Strikes</p>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
@@ -225,82 +210,11 @@ displayName}</h1>
                 <div className="md:col-span-1">
                   <TaskChart events={events} />
                 </div>
-                <div className="md:col-span-1 space-y-2">
-                  <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 h-24">
-                    <CardContent className="p-4 text-center">
-                      <div className="text-2xl font-bold text-purple-600">0.00</div>
-                      <p className="text-xs text-purple-400">CGPA</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200 h-24">
-                    <CardContent className="p-4 text-center">
-                      <div className="text-2xl font-bold text-yellow-600">0</div>
-                      <p className="text-xs text-yellow-400">Points</p>
-                    </CardContent>
-                  </Card>
-                </div>
               </div>
-
-              <DashboardStats
-                activeTasks={activeTasks}
-                completedTasks={completedTasksCount}
-                moneyEarned={moneyEarned}
-              />
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5" />
-                    Forum Discussions
-                  </CardTitle>
-                  <CardDescription>Recent discussions from the community</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {forumPosts.length > 0 ? (
-                    <div className="space-y-4">
-                      {forumPosts.slice(0, 4).map(discussion =>
-                        <div key={discussion.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg gap-3 hover:bg-muted cursor-pointer">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Badge variant="outline" className="text-xs">
-                                {discussion.category}
-                              </Badge>
-                            </div>
-                            <h4 className="font-medium text-sm mb-1">{discussion.title}</h4>
-                            <p className="text-xs text-muted-foreground">by {discussion.author}</p>
-                          </div>
-                          <div className="text-right flex items-center gap-2">
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Users className="w-3 h-3" />
-                              <span>{discussion.replies}</span>
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="w-3 h-3" />
-                              <span>{discussion.time}</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-center text-muted-foreground py-8">No forum posts yet. Start a discussion!</p>
-                  )}
-                  <Link to="/forum">
-                    <Button variant="outline" className="w-full mt-4">
-                      View All Discussions
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="space-y-4 md:space-y-6">
-              <CalendarWithEventSlots
-                events={events}
-                onEventAdd={handleAddEvent}
-                onEventComplete={handleEventComplete}
-                compact={true}
-              />
+              <DashboardCalendarWidget />
             </div>
           </div>
         </div>

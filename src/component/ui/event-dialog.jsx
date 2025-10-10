@@ -5,47 +5,45 @@ import { Input } from "./input";
 import { Label } from "./label";
 import { Textarea } from "./textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
-import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { PlusCircle, Edit, Trash2 } from "lucide-react";
+import { Bell, BellRing } from "lucide-react";
 
 export function EventDialog({ event, onSave, onDelete, trigger, isEdit = false }) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: event?.name || '',
-    description: event?.description || '',
+    id:event?.id || null,
+    title: event?.title || '',
+    details: event?.details || '',
     time: event?.time || '',
     date: event?.datetime ? new Date(event.datetime).toISOString().split('T')[0] : '',
     type: event?.type || 'study',
-    notifyBefore: event?.notifyBefore || 5,
-    repeat: event?.repeat || 'once'
+    notification: event?.notification || false
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.time || !formData.date) return;
+    if (!formData.title || !formData.time || !formData.date) return;
 
     const datetime = new Date(`${formData.date}T${formData.time}`).toISOString();
 
     onSave({
-      name: formData.name,
-      description: formData.description,
+      title: formData.title,
+      details: formData.details,
       time: formData.time,
-      datetime,
+      date:datetime,
       type: formData.type,
-      notifyBefore: formData.notifyBefore,
-      repeat: formData.repeat
+      notification: formData.notification,
     });
 
     setOpen(false);
     if (!isEdit) {
       setFormData({
-        name: '',
-        description: '',
+        title: '',
+        details: '',
         time: '',
         date: '',
         type: 'study',
-        notifyBefore: 5,
-        repeat: 'once'
+        notification: false,
       });
     }
   };
@@ -76,8 +74,8 @@ export function EventDialog({ event, onSave, onDelete, trigger, isEdit = false }
             <Label htmlFor="title">Title</Label>
             <Input
               id="title"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              value={formData.title}
+              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
               placeholder="Event title"
               required
             />
@@ -87,8 +85,8 @@ export function EventDialog({ event, onSave, onDelete, trigger, isEdit = false }
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              value={formData.details}
+              onChange={(e) => setFormData(prev => ({ ...prev, details: e.target.value }))}
               placeholder="Event description (optional)"
               rows={3}
             />
@@ -133,41 +131,21 @@ export function EventDialog({ event, onSave, onDelete, trigger, isEdit = false }
           </div>
 
           <div className="space-y-2">
-            <Label>Notify Before</Label>
-            <Select value={formData.notifyBefore.toString()} onValueChange={(value) => setFormData(prev => ({ ...prev, notifyBefore: parseInt(value) }))}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="5">5 minutes</SelectItem>
-                <SelectItem value="10">10 minutes</SelectItem>
-                <SelectItem value="15">15 minutes</SelectItem>
-                <SelectItem value="30">30 minutes</SelectItem>
-                <SelectItem value="60">1 hour</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Repeat</Label>
-            <RadioGroup value={formData.repeat} onValueChange={(value) => setFormData(prev => ({ ...prev, repeat: value }))}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="once" id="once" />
-                <Label htmlFor="once">Once</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="daily" id="daily" />
-                <Label htmlFor="daily">Daily</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="weekly" id="weekly" />
-                <Label htmlFor="weekly">Weekly</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="monthly" id="monthly" />
-                <Label htmlFor="monthly">Monthly</Label>
-              </div>
-            </RadioGroup>
+          <button
+          type="button"
+          onClick={() =>
+            setFormData((f) => ({ ...f, notification: !f.notification }))
+          }
+          className={`flex items-center gap-2 px-3 py-1 rounded-md border ${formData.notification
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground"
+            }`}
+        >
+          {formData.notification ? <BellRing size={18} /> : <Bell size={18} />}
+          <span className="text-sm">
+            {formData.notification ? "On" : "Off"}
+          </span>
+        </button>
           </div>
 
           <div className="flex justify-between pt-4">
